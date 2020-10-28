@@ -3,75 +3,115 @@ const World= Matter.World;
 const Bodies = Matter.Bodies;
 const Constraint = Matter.Constraint;
 
+var score = 0;
+var polygon;
 var engine, world;
-var box1, pig1;
-var backgroundImg,platform;
-var bird, slingShot;
 
-function preload() {
-    backgroundImg = loadImage("sprites/bg.png");
+var backkidIMG, backkidIMG2, backkidIMG3, backkidIMG4
+, backkidIMG5, backkidIMG6;
+
+var hoopIMG,basketballIMG, mainkidIMG,mainkidIMG2;
+var backgroundIMG;
+
+var mainkid, backkid1,backkid2,backkid3,backkid4,backkid5,backkid6;
+var hoop, basketball;
+//var ball,ball_image;
+
+function preload(){
+  backkidIMG = loadImage("images/backid1.png");
+  backkidIMG2 = loadImage("images/backid2.png");
+  backkidIMG3 = loadImage("images/backid3.png");
+  backkidIMG4 = loadImage("images/backid4.png");
+  backkidIMG5 = loadImage("images/backid5.png");
+  backkidIMG6 = loadImage("images/backid6.png");
+
+  hoopIMG = loadImage("images/hoop.png");
+  mainkidIMG = loadImage("images/mainkid1.png");
+  mainkidIMG2 = loadImage("images/mainkid2.png");
+  backgroundIMG = loadImage("images/background.png");
+  basketballIMG = loadImage("images/basketball.png");
+
+  backdrop = loadImage("images/background.png")
+  //ball_image = loadImage("images/basketball.png")
+
 }
 
-function setup(){
-    var canvas = createCanvas(1200,400);
-    engine = Engine.create();
-    world = engine.world;
+function setup() {
+createCanvas(1920,1080) 
+ engine = Engine.create();
+  world = engine.world;
+
+  basketball = new Basketball(100,450,110,110);
+ slingShot = new Slingshot(basketball.body,{x:500,y:700});
+
+  /*backdrop = createSprite(960,540,960,540);
+  backdrop.addImage(backgroundIMG);
+  backdrop.scale = 1.75;
+
+  backdrop2 = createSprite(1550,540,960,540);
+  backdrop2.addImage(backgroundIMG);
+  backdrop2.scale = 1.75;
+  
+  backdrop3 = createSprite(375,540,960,540);
+  backdrop3.addImage(backgroundIMG);
+  backdrop3.scale = 1.75;*/
+
+  backkid1 = createSprite(600,775,10,10);
+  backkid1.addImage(backkidIMG);
+  backkid1.scale = .75;
+
+  backkid2 = createSprite(800,775,10,10);
+  backkid2.addImage(backkidIMG2);
+  backkid2.scale = .6;
+
+  backkid3 = createSprite(1000,775,10,10);
+  backkid3.addImage(backkidIMG3);
+  backkid3.scale = .6;
+
+  backkid4 = createSprite(1200,775,10,10);
+  backkid4.addImage(backkidIMG4);
+  backkid4.scale = .6;
+
+  mainkid = createSprite(480,850,10,10);
+  mainkid.addImage(mainkidIMG);
+  mainkid.scale = .655;
+
+  hoop = createSprite(1775,450,10,10);
+  hoop.addImage(hoopIMG);
+  hoop.scale = .6;
+
+  //ball = Bodies.circle(50,200,20);
+  //World.add(world, ball);
 
 
-    ground = new Ground(600,height,1200,20);
-    platform = new Ground(150, 305, 300, 170);
-
-    box1 = new Box(700,320,70,70);
-    box2 = new Box(920,320,70,70);
-    pig1 = new Pig(810, 350);
-    log1 = new Log(810,260,300, PI/2);
-
-    box3 = new Box(700,240,70,70);
-    box4 = new Box(920,240,70,70);
-    pig3 = new Pig(810, 220);
-
-    log3 =  new Log(810,180,300, PI/2);
-
-    box5 = new Box(810,160,70,70);
-    log4 = new Log(760,120,150, PI/7);
-    log5 = new Log(870,120,150, -PI/7);
-
-    bird = new Bird(100,100);
-
-    //log6 = new Log(230,180,80, PI/2);
-    slingshot = new SlingShot(bird.body,{x:200, y:100});
 }
 
-function draw(){
-    background(backgroundImg);
-    Engine.update(engine);
-    strokeWeight(4);
-    box1.display();
-    box2.display();
-    ground.display();
-    pig1.display();
-    log1.display();
+function draw() {
+  background(backgroundIMG);  
 
-    box3.display();
-    box4.display();
-    pig3.display();
-    log3.display();
+  textSize(35);
+  fill("white");
+  text("SCORE:" + score,750,40);
 
-    box5.display();
-    log4.display();
-    log5.display();
+  basketball.display();
+  slingShot.display();
+  //imageMode(CENTER);
+  //image(ball_image,ball.position.x,ball.position.y, 40,40);
 
-    bird.display();
-    platform.display();
-    //log6.display();
-    slingshot.display();    
+
+  drawSprites();
 }
 
 function mouseDragged(){
-    Matter.Body.setPosition(bird.body, {x: mouseX , y: mouseY});
+  Matter.Body.setPosition(basketball.body, {x: mouseX , y: mouseY});
 }
 
+/*function keyPressed(){
+  if(keyCode === 32){
+      slingShot.attach(basketball.body);
+  }
+}*/
 
 function mouseReleased(){
-    slingshot.fly();
+  slingShot.fly();
 }
